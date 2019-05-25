@@ -6,7 +6,7 @@ Description
 -----------
 Write a function that takes an array nums of N integers, and returns
 an array products where products[i] is the product of all the elements
-of nums except nums[i].
+of nums excluding nums[i].
 
 Solve it without using division.
 
@@ -32,7 +32,7 @@ Example Explanation
 
 products :: [Int] -> [Int]
 products xs = zipWith (*) forwardProducts backwardProducts
-    where forwardProducts  = initProductScanl xs
-          backwardProducts = (reverse . initProductScanl . reverse) xs
-          initProductScanl = init . (scanl (*) 1)
+   where forwardProducts  = initProductScanl xs
+         backwardProducts = (reverse . initProductScanl . reverse) xs
+         initProductScanl = init . (scanl (*) 1)
 
