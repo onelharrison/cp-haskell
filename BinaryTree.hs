@@ -1,5 +1,8 @@
 module BinaryTree
   ( BinaryTree
+  , valuesPreOrder
+  , valuesInOrder
+  , valuesPostOrder
   , leaves
   , deepestL
   , deepestR
@@ -25,10 +28,28 @@ instance Foldable BinaryTree where
   foldr = treeFoldr
 
 treeMap :: (a -> b) -> BinaryTree a -> BinaryTree b
-treeMap _ Empty = Empty
 treeMap f (Leaf a) = Leaf (f a)
 treeMap f (Node leftSubTree a rightSubTree) =
   Node (treeMap f leftSubTree) (f a) (treeMap f rightSubTree)
+treeMap _ _ = Empty
+
+valuesPreOrder :: BinaryTree a -> [a]
+valuesPreOrder (Leaf a) = [a]
+valuesPreOrder (Node leftSubTree a rightSubTree) =
+  [a] ++ valuesPreOrder leftSubTree ++ valuesPreOrder rightSubTree
+valuesPreOrder _ = []
+
+valuesInOrder :: BinaryTree a -> [a]
+valuesInOrder (Leaf a) = [a]
+valuesInOrder (Node leftSubTree a rightSubTree) =
+  valuesInOrder leftSubTree ++ [a] ++ valuesInOrder rightSubTree
+valuesInOrder _ = []
+
+valuesPostOrder :: BinaryTree a -> [a]
+valuesPostOrder (Leaf a) = [a]
+valuesPostOrder (Node leftSubTree a rightSubTree) =
+  valuesPostOrder leftSubTree ++ valuesPostOrder rightSubTree ++ [a]
+valuesPostOrder _ = []
 
 treeFoldr :: (a -> b -> b) -> b -> BinaryTree a -> b
 treeFoldr f z Empty = z
