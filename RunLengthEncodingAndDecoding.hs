@@ -20,6 +20,7 @@ Example
 -------
  * unencoded input string = "WBBWWBB"   , output = "1W2B2W2B"
  * unencoded input string = "ABC"       , output = "1A1B1C"
+ * unencoded input string = "ABC"       , output = "ABC" (BONUS)
  * encoded input string   = "4A3B2C1D2A", output = "AAAABBBCCDAA"
 
 --}
@@ -31,17 +32,20 @@ runLengthEncode :: String -> String
 runLengthEncode = concat . map compressRun . List.group
 
 compressRun :: String -> String
-compressRun xs = (show . length $ xs) ++ [head xs]
+compressRun xs
+  | length xs == 1 = xs -- BONUS
+  | otherwise = (show . length $ xs) ++ [head xs]
 
 runLengthDecode :: String -> String
 runLengthDecode xs = concat . map decompressRun $ compressedRuns
   where
     compressedRuns =
       Split.split
-        (Split.dropFinalBlank . Split.keepDelimsR . Split.whenElt $ Char.isLetter)
+        (Split.dropFinalBlank . Split.keepDelimsR . Split.whenElt $
+         Char.isLetter)
         xs
 
 decompressRun :: String -> String
-decompressRun compressedRun =
-  replicate (read . init $ compressedRun) (last compressedRun)
-
+decompressRun compressedRun
+  | length compressedRun == 1 = compressedRun -- BONUS
+  | otherwise = replicate (read . init $ compressedRun) (last compressedRun)
