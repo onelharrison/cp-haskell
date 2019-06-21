@@ -28,7 +28,7 @@ Example Explanation
 import Data.List
 
 kSubMax :: [Int] -> Int -> [Int]
-kSubMax xs k = map maximum $ map (take k) $ filter ((>= k) . length) $ tails xs
+kSubMax xs k = map maximum . map (take k) . filter ((>= k) . length) . tails $ xs
 
 kSubMax' :: Int -> [Int] -> [Int]
 kSubMax' k = map maximum . map (take k) . takeWhile ((>= k) . length) . tails
